@@ -2,8 +2,8 @@ import torch
 import torch.nn as nn
 import torch.utils.checkpoint as checkpoint
 
-from net.MedNeXt.nnunet_mednext.network_architecture.mednextv1.blocks import *
-from utils import config
+from nets_.MedNext.nnunet_mednext.network_architecture.mednextv1.blocks import *
+from utils_ import config
 
 
 class MedNeXt(nn.Module):
@@ -36,6 +36,7 @@ class MedNeXt(nn.Module):
         norm_type="group",
         dim="3d",  # 2d or 3d
         grn=False,
+        return_hidden_features: bool = False,
     ):
 
         super().__init__()
@@ -47,6 +48,8 @@ class MedNeXt(nn.Module):
         if checkpoint_style == "outside_block":
             self.outside_block_checkpointing = True
         assert dim in ["2d", "3d"]
+
+        self.return_hidden_features = return_hidden_features
 
         if kernel_size is not None:
             enc_kernel_size = kernel_size
@@ -338,7 +341,7 @@ class MedNeXt(nn.Module):
             x = checkpoint.checkpoint(self.down_3, x_res_3, self.dummy_tensor)
 
             x = self.iterative_checkpoint(self.bottleneck, x)
-            if config.trigger_pretraining:
+            if self.return_hidden_features:
                 return x
 
             if self.do_ds:
@@ -383,7 +386,7 @@ class MedNeXt(nn.Module):
             x = self.down_3(x_res_3)
 
             x = self.bottleneck(x)
-            if config.trigger_pretraining:
+            if self.return_hidden_features:
                 return x
 
             if self.do_ds:

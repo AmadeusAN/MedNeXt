@@ -6,13 +6,15 @@ from __future__ import absolute_import
 # print("If you have questions or suggestions, feel free to open an issue at https://github.com/MIC-DKFZ/nnUNet\n")
 
 from . import *
-from net.MedNeXt.nnunet_mednext.network_architecture.mednextv1.MedNextV1 import MedNeXt
-from net.MedNeXt.nnunet_mednext.network_architecture.mednextv1.create_mednext_v1 import (
+from nets_.MedNext.nnunet_mednext.network_architecture.mednextv1.MedNextV1 import (
+    MedNeXt,
+)
+from nets_.MedNext.nnunet_mednext.network_architecture.mednextv1.create_mednext_v1 import (
     create_mednext_v1,
 )
-from net.MedNeXt.nnunet_mednext.network_architecture.mednextv1.blocks import (
+from nets_.MedNext.nnunet_mednext.network_architecture.mednextv1.blocks import (
     MedNeXtBlock,
     MedNeXtUpBlock,
     MedNeXtDownBlock,
 )
-from net.MedNeXt.nnunet_mednext.run.load_weights import upkern_load_weights
+from nets_.MedNext.nnunet_mednext.run.load_weights import upkern_load_weights
